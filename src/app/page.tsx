@@ -2,27 +2,23 @@
 
 import { Hero } from "@/components/home/Hero";
 import { HowItWorksPreview } from "@/components/home/HowItWorksPreview";
-import { FeaturedPlans } from "@/components/home/FeaturedPlans";
+import { FoodShowcase } from "@/components/home/FoodShowcase";
+import { FoodGrid } from "@/components/home/FoodGrid";
 import { GlobalFlavour } from "@/components/home/GlobalFlavour";
-import { MacroWizardTeaser } from "@/components/home/MacroWizardTeaser";
+import { OurStandards } from "@/components/home/OurStandards";
 import { MembershipTiers } from "@/components/home/MembershipTiers";
 import { Testimonials } from "@/components/home/Testimonials";
 import { CTABanner } from "@/components/home/CTABanner";
-import { allPlans } from "@/config/plans";
-
-const featured = allPlans.filter((p) => p.featured);
-const fallbackFeatured = featured.length >= 3
-  ? featured
-  : allPlans.slice(0, 3);
 
 export default function Home() {
   return (
     <>
       <Hero />
       <HowItWorksPreview />
-      <FeaturedPlans plans={fallbackFeatured} />
+      <FoodShowcase />
+      <FoodGrid />
       <GlobalFlavour />
-      <MacroWizardTeaser />
+      <OurStandards />
       <MembershipTiers />
       <Testimonials />
       <CTABanner />

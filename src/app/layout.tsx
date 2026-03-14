@@ -62,7 +62,7 @@ export default function RootLayout({
         className={`${sora.variable} ${dmSans.variable} ${jetbrainsMono.variable} antialiased`}
       >
         <Header />
-        <main className="min-h-screen pt-16">{children}</main>
+        <main className="min-h-screen">{children}</main>
         <Footer />
       </body>
     </html>

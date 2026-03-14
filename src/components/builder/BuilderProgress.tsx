@@ -39,89 +39,120 @@ export function BuilderProgress() {
 
   return (
     <div className="w-full">
-      {/* Desktop progress bar */}
-      <div className="hidden sm:flex items-center justify-between gap-1">
-        {STEPS.map((step, index) => {
-          const state = getStepState(index);
-          const navigable = canNavigateTo(index);
+      {/* Desktop — horizontal progress bar */}
+      <div className="hidden sm:block">
+        <div className="relative">
+          {/* Background track */}
+          <div className="absolute top-5 left-0 right-0 h-0.5 bg-neutral-200" />
+          {/* Filled track */}
+          <motion.div
+            className="absolute top-5 left-0 h-0.5 bg-brand-red"
+            initial={{ width: "0%" }}
+            animate={{
+              width: `${(currentIndex / (STEPS.length - 1)) * 100}%`,
+            }}
+            transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+          />
 
-          return (
-            <div key={step.key} className="flex flex-1 items-center gap-1">
-              <button
-                type="button"
-                onClick={() => navigable && goToStep(step.key)}
-                disabled={!navigable}
-                className={cn(
-                  "relative flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all",
-                  state === "completed" &&
-                    "cursor-pointer text-brand-green hover:bg-brand-green/5",
-                  state === "active" && "text-brand-red cursor-default",
-                  state === "upcoming" &&
-                    "cursor-default text-text-secondary opacity-50"
-                )}
-              >
-                <span
+          {/* Step dots and labels */}
+          <div className="relative flex justify-between">
+            {STEPS.map((step, index) => {
+              const state = getStepState(index);
+              const navigable = canNavigateTo(index);
+
+              return (
+                <button
+                  key={step.key}
+                  type="button"
+                  onClick={() => navigable && goToStep(step.key)}
+                  disabled={!navigable}
                   className={cn(
-                    "flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold transition-colors",
-                    state === "completed" && "bg-brand-green text-white",
-                    state === "active" && "bg-brand-red text-white",
-                    state === "upcoming" && "bg-gray-200 text-gray-500"
+                    "flex flex-col items-center gap-2",
+                    navigable && "cursor-pointer"
                   )}
                 >
-                  {state === "completed" ? (
-                    <svg
-                      className="h-4 w-4"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth={3}
+                  {/* Dot */}
+                  <div className="relative">
+                    {state === "active" && (
+                      <motion.div
+                        className="absolute -inset-2 rounded-full bg-brand-red/20"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{
+                          repeat: Infinity,
+                          repeatType: "reverse",
+                          duration: 1.5,
+                        }}
+                      />
+                    )}
+                    <motion.div
+                      className={cn(
+                        "relative flex h-10 w-10 items-center justify-center rounded-full text-xs font-bold transition-colors",
+                        state === "completed" && "bg-brand-green text-white",
+                        state === "active" && "bg-brand-red text-white",
+                        state === "upcoming" && "bg-neutral-100 text-neutral-400"
+                      )}
+                      animate={
+                        state === "active"
+                          ? { boxShadow: "0 0 0 4px rgba(220, 38, 38, 0.15)" }
+                          : { boxShadow: "0 0 0 0px rgba(0,0,0,0)" }
+                      }
                     >
-                      <path d="M5 13l4 4L19 7" />
-                    </svg>
-                  ) : (
-                    index + 1
-                  )}
-                </span>
-                <span className="hidden md:inline">{step.label}</span>
-              </button>
-              {index < STEPS.length - 1 && (
-                <div className="h-px flex-1 bg-border-light">
-                  <motion.div
-                    className="h-full bg-brand-green"
-                    initial={{ width: "0%" }}
-                    animate={{
-                      width: state === "completed" ? "100%" : "0%",
-                    }}
-                    transition={{ duration: 0.3 }}
-                  />
-                </div>
-              )}
-            </div>
-          );
-        })}
+                      {state === "completed" ? (
+                        <svg
+                          className="h-4 w-4"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth={3}
+                        >
+                          <path d="M5 13l4 4L19 7" />
+                        </svg>
+                      ) : (
+                        index + 1
+                      )}
+                    </motion.div>
+                  </div>
+
+                  {/* Label */}
+                  <span
+                    className={cn(
+                      "text-xs font-medium transition-colors",
+                      state === "completed" && "text-brand-green",
+                      state === "active" && "text-brand-red font-semibold",
+                      state === "upcoming" && "text-neutral-400"
+                    )}
+                  >
+                    {step.label}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
       </div>
 
-      {/* Mobile progress bar */}
+      {/* Mobile — compact bar */}
       <div className="sm:hidden">
-        <div className="mb-2 flex items-center justify-between">
-          <span className="text-sm font-semibold text-brand-red">
-            Step {currentIndex + 1} of {STEPS.length}
+        <div className="mb-3 flex items-center justify-between">
+          <span className="text-sm font-bold text-brand-red">
+            Step {currentIndex + 1} / {STEPS.length}
           </span>
           <span className="text-sm font-medium text-text-secondary">
             {STEPS[currentIndex].label}
           </span>
         </div>
-        <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">
+        <div className="relative h-2 w-full overflow-hidden rounded-full bg-neutral-100">
           <motion.div
-            className="h-full rounded-full bg-brand-red"
+            className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-brand-red to-brand-red/80"
             initial={{ width: "0%" }}
             animate={{
               width: `${((currentIndex + 1) / STEPS.length) * 100}%`,
             }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
           />
         </div>
-        <div className="mt-2 flex justify-between">
+        <div className="mt-3 flex justify-between">
           {STEPS.map((step, index) => {
             const state = getStepState(index);
             const navigable = canNavigateTo(index);
@@ -133,10 +164,11 @@ export function BuilderProgress() {
                 onClick={() => navigable && goToStep(step.key)}
                 disabled={!navigable}
                 className={cn(
-                  "flex h-6 w-6 items-center justify-center rounded-full text-[10px] font-bold transition-colors",
+                  "flex h-6 w-6 items-center justify-center rounded-full text-[10px] font-bold transition-all",
                   state === "completed" && "bg-brand-green text-white",
-                  state === "active" && "bg-brand-red text-white",
-                  state === "upcoming" && "bg-gray-200 text-gray-400"
+                  state === "active" &&
+                    "bg-brand-red text-white shadow-md shadow-brand-red/30",
+                  state === "upcoming" && "bg-neutral-100 text-neutral-400"
                 )}
               >
                 {state === "completed" ? (

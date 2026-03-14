@@ -31,14 +31,19 @@ export function Header() {
         )}
       >
         <div className="mx-auto flex h-16 max-w-[1280px] items-center justify-between px-4 sm:px-6">
-          <Logo />
+          <Logo variant={scrolled ? "dark" : "light"} />
 
           <nav className="hidden items-center gap-8 md:flex">
             {siteConfig.nav.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-text-secondary transition-colors hover:text-foreground"
+                className={cn(
+                  "text-sm font-medium transition-colors",
+                  scrolled
+                    ? "text-text-secondary hover:text-foreground"
+                    : "text-white/80 hover:text-white"
+                )}
               >
                 {link.label}
               </Link>
@@ -48,7 +53,10 @@ export function Header() {
           <div className="flex items-center gap-4">
             <Link
               href="/cart"
-              className="relative flex h-10 w-10 items-center justify-center rounded-lg transition-colors hover:bg-gray-100"
+              className={cn(
+                "relative flex h-10 w-10 items-center justify-center rounded-lg transition-colors",
+                scrolled ? "hover:bg-gray-100" : "text-white hover:bg-white/10"
+              )}
               aria-label="Shopping cart"
             >
               <svg
@@ -88,7 +96,10 @@ export function Header() {
             <button
               type="button"
               onClick={() => setMobileOpen(true)}
-              className="flex h-10 w-10 items-center justify-center rounded-lg transition-colors hover:bg-gray-100 md:hidden"
+              className={cn(
+                "flex h-10 w-10 items-center justify-center rounded-lg transition-colors md:hidden",
+                scrolled ? "hover:bg-gray-100" : "text-white hover:bg-white/10"
+              )}
               aria-label="Open menu"
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>

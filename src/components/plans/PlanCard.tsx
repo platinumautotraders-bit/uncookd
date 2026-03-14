@@ -4,9 +4,6 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import type { Plan } from "@/types";
 import { MacroBar } from "@/components/shared/MacroBar";
-import { HalalBadge } from "@/components/shared/HalalBadge";
-import { DifficultyBadge } from "@/components/shared/DifficultyBadge";
-import { Badge } from "@/components/shared/Badge";
 import { ImagePlaceholder } from "@/components/shared/ImagePlaceholder";
 import { formatPrice } from "@/lib/formatters";
 
@@ -16,42 +13,47 @@ interface PlanCardProps {
 
 export function PlanCard({ plan }: PlanCardProps) {
   return (
-    <motion.div
-      whileHover={{ y: -4, transition: { duration: 0.2 } }}
-      className="group overflow-hidden rounded-xl border border-border-light bg-white shadow-sm transition-shadow hover:shadow-lg"
-    >
-      <Link href={`/plan/${plan.slug}`}>
-        <div className="relative">
+    <Link href={`/plan/${plan.slug}`} className="group block">
+      <motion.div
+        whileHover={{ y: -6, transition: { duration: 0.25, ease: "easeOut" } }}
+        className="relative overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/5 transition-shadow duration-300 group-hover:shadow-xl group-hover:ring-black/10"
+      >
+        {/* Image area — 60% of card */}
+        <div className="relative aspect-[4/3] overflow-hidden">
           {plan.heroImage ? (
             <img
               src={plan.heroImage}
               alt={plan.name}
-              className="aspect-video w-full object-cover"
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
             />
           ) : (
-            <ImagePlaceholder aspectRatio="16:9" />
+            <ImagePlaceholder aspectRatio="4:3" />
           )}
-          <div className="absolute top-3 left-3 flex gap-2">
-            <HalalBadge size="sm" />
-            {plan.includesBreakfast && (
-              <Badge variant="dietary">Breakfast</Badge>
-            )}
-          </div>
-        </div>
 
-        <div className="p-5">
-          <div className="flex items-start justify-between gap-2">
-            <h3 className="font-[family-name:var(--font-sora)] text-lg font-bold leading-tight">
+          {/* Gradient overlay at bottom of image */}
+          <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+
+          {/* Plan name overlaid on image */}
+          <div className="absolute inset-x-0 bottom-0 p-5">
+            <h3 className="font-[family-name:var(--font-sora)] text-xl font-bold leading-tight text-white drop-shadow-lg">
               {plan.name}
             </h3>
-            <DifficultyBadge difficulty={plan.difficulty} />
+            <p className="mt-1 text-sm text-white/70 line-clamp-1">
+              {plan.tagline}
+            </p>
           </div>
 
-          <p className="mt-1.5 text-sm text-text-secondary line-clamp-2">
-            {plan.tagline}
-          </p>
+          {/* Breakfast badge if applicable */}
+          {plan.includesBreakfast && (
+            <div className="absolute top-3 right-3 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-neutral-800 backdrop-blur-sm">
+              + Breakfast
+            </div>
+          )}
+        </div>
 
-          <div className="mt-4">
+        {/* Info strip — minimal */}
+        <div className="flex items-center justify-between p-4">
+          <div className="flex-1">
             <div className="font-[family-name:var(--font-jetbrains-mono)] text-xs text-text-secondary">
               {plan.targetCalories} cal / day
             </div>
@@ -63,19 +65,14 @@ export function PlanCard({ plan }: PlanCardProps) {
             />
           </div>
 
-          <div className="mt-4 flex items-center justify-between border-t border-border-light pt-4">
-            <div className="text-sm text-text-secondary">
-              From{" "}
-              <span className="font-[family-name:var(--font-jetbrains-mono)] text-base font-bold text-foreground">
-                {formatPrice(49.99)}
-              </span>
+          <div className="ml-4 text-right">
+            <span className="text-xs text-text-secondary">From</span>
+            <div className="font-[family-name:var(--font-jetbrains-mono)] text-lg font-bold text-foreground">
+              {formatPrice(49.99)}
             </div>
-            <span className="rounded-lg bg-brand-red px-3 py-1.5 text-xs font-semibold text-white transition-colors group-hover:bg-brand-red-hover">
-              View Plan
-            </span>
           </div>
         </div>
-      </Link>
-    </motion.div>
+      </motion.div>
+    </Link>
   );
 }
