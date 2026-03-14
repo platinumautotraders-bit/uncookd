@@ -26,10 +26,10 @@ export function Hero() {
           transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
           className="px-4"
         >
-          <h1 className="font-[family-name:var(--font-sora)] text-5xl font-extrabold leading-none tracking-tight text-white sm:text-6xl md:text-7xl lg:text-8xl">
+          <h1 className="font-[family-name:var(--font-sora)] text-5xl font-extrabold leading-[1.05] text-white sm:text-6xl md:text-7xl lg:text-8xl">
             Prepped. Portioned.
             <br />
-            <span className="text-brand-red">Ready to Cook.</span>
+            <span className="text-gradient-red">Ready to Cook.</span>
           </h1>
 
           <motion.p

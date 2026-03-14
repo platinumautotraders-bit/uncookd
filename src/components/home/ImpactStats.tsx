@@ -46,8 +46,8 @@ export function ImpactStats() {
           transition={{ duration: 0.5 }}
           className="text-center"
         >
-          <h2 className="font-[family-name:var(--font-sora)] text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
-            Built for <span className="text-brand-red">Results</span>
+          <h2 className="font-[family-name:var(--font-sora)] text-3xl font-extrabold sm:text-4xl md:text-5xl">
+            Built for <span className="text-gradient-red">Results</span>
           </h2>
           <p className="mx-auto mt-3 max-w-lg text-base text-text-secondary sm:text-lg">
             Every ingredient, every portion, every macro calculated to help you hit your goals without spending hours in the kitchen.

@@ -25,8 +25,8 @@ export function FoodGrid() {
           transition={{ duration: 0.5 }}
           className="mb-8"
         >
-          <h2 className="font-[family-name:var(--font-sora)] text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl">
-            What&apos;s <span className="text-brand-red">Cooking</span>
+          <h2 className="font-[family-name:var(--font-sora)] text-3xl font-extrabold tracking-tight text-white sm:text-4xl md:text-5xl">
+            What&apos;s <span className="bg-gradient-to-r from-brand-red to-red-400 bg-clip-text text-transparent">Cooking</span>
           </h2>
           <p className="mt-3 max-w-md text-base text-text-inverse-muted sm:text-lg">
             Every meal photographed is one you can order. Real food, real portions, real flavour.
@@ -38,26 +38,24 @@ export function FoodGrid() {
           variants={staggerContainer}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3"
+          className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 md:auto-rows-[280px]"
         >
           {meals.map((meal, i) => (
             <motion.div
               key={meal.name}
               variants={fadeInUp}
-              className={`group relative overflow-hidden rounded-2xl ${
-                i === 0 ? "col-span-2 row-span-2 aspect-[4/3] md:col-span-1 md:row-span-2" : "aspect-square"
-              }`}
+              className="group relative overflow-hidden rounded-2xl"
             >
               <Image
                 src={meal.image}
                 alt={meal.name}
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-105"
-                sizes={i === 0 ? "(max-width: 768px) 100vw, 33vw" : "(max-width: 768px) 50vw, 33vw"}
+                sizes="(max-width: 768px) 50vw, 33vw"
               />
               <div className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/50" />
               <div className="absolute inset-x-0 bottom-0 translate-y-full p-4 transition-transform duration-300 group-hover:translate-y-0">
-                <span className="font-[family-name:var(--font-sora)] text-sm font-semibold text-white sm:text-base">
+                <span className="font-[family-name:var(--font-sora)] text-sm font-bold text-white sm:text-base">
                   {meal.name}
                 </span>
               </div>

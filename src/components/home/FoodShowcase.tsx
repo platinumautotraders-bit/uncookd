@@ -31,8 +31,8 @@ export function FoodShowcase() {
           className="flex items-end justify-between"
         >
           <div>
-            <h2 className="font-[family-name:var(--font-sora)] text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
-              Find Your <span className="text-brand-red">Plan</span>
+            <h2 className="font-[family-name:var(--font-sora)] text-3xl font-extrabold sm:text-4xl md:text-5xl">
+              Find Your <span className="text-gradient-red">Plan</span>
             </h2>
             <p className="mt-3 max-w-md text-base text-text-secondary sm:text-lg">
               10 meal plans built around real goals — whether you are cutting, bulking, or feeding the family.
