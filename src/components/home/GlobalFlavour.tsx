@@ -37,14 +37,14 @@ export function GlobalFlavour() {
         animate={isInView ? "visible" : "hidden"}
         className="relative mx-auto flex max-w-[1280px] flex-col items-center justify-center px-4 py-24 text-center sm:px-6 sm:py-32"
       >
-        <span className="font-[family-name:var(--font-jetbrains-mono)] text-xs font-medium uppercase tracking-widest text-white/50">
-          {monthName} Global Flavour
+        <span className="font-[family-name:var(--font-jetbrains-mono)] text-xs font-medium uppercase tracking-widest text-brand-red">
+          {monthName} / Global Flavour
         </span>
         <h2 className="mt-4 font-[family-name:var(--font-sora)] text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl">
           {current.name}
         </h2>
         <p className="mt-4 max-w-lg text-base text-white/60 sm:text-lg">
-          {current.description.split(".")[0]}.
+          A new cuisine every month. This month: {current.description.split(".")[0].toLowerCase()}.
         </p>
         <Link
           href="/plan/global-flavour"

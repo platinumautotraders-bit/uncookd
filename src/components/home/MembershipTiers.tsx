@@ -14,10 +14,10 @@ export function MembershipTiers() {
       <div className="mx-auto max-w-[1280px]">
         <div className="text-center">
           <h2 className="font-[family-name:var(--font-sora)] text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
-            Choose Your Membership
+            Choose Your <span className="text-brand-red">Membership</span>
           </h2>
-          <p className="mt-3 text-text-secondary">
-            Free to browse. Join to order. Premium for the full experience.
+          <p className="mx-auto mt-3 max-w-md text-base text-text-secondary sm:text-lg">
+            Browse free. Order as Standard. Unlock everything with Premium.
           </p>
         </div>
 

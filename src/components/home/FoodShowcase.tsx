@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -13,12 +13,7 @@ export function FoodShowcase() {
   const { ref, isInView } = useScrollReveal();
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
-    {
-      loop: true,
-      align: "start",
-      slidesToScroll: 1,
-      containScroll: false,
-    },
+    { loop: true, align: "start", slidesToScroll: 1, containScroll: false },
     [Autoplay({ delay: 4000, stopOnInteraction: false, stopOnMouseEnter: true })]
   );
 
@@ -26,7 +21,7 @@ export function FoodShowcase() {
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
 
   return (
-    <section className="overflow-hidden bg-white px-4 py-16 sm:px-6 md:py-24">
+    <section className="overflow-hidden bg-white px-4 py-14 sm:px-6 md:py-20">
       <div className="mx-auto max-w-[1280px]">
         <motion.div
           ref={ref}
@@ -37,16 +32,16 @@ export function FoodShowcase() {
         >
           <div>
             <h2 className="font-[family-name:var(--font-sora)] text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
-              Find Your Plan
+              Find Your <span className="text-brand-red">Plan</span>
             </h2>
-            <p className="mt-2 text-text-secondary">
-              10 plans built for every goal and palate.
+            <p className="mt-3 max-w-md text-base text-text-secondary sm:text-lg">
+              10 meal plans built around real goals — whether you are cutting, bulking, or feeding the family.
             </p>
           </div>
           <div className="hidden items-center gap-2 sm:flex">
             <button
               onClick={scrollPrev}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-border-light transition-colors hover:bg-gray-50"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-border-light transition-all hover:bg-gray-50 hover:shadow-sm"
               aria-label="Previous plan"
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -55,7 +50,7 @@ export function FoodShowcase() {
             </button>
             <button
               onClick={scrollNext}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-border-light transition-colors hover:bg-gray-50"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-border-light transition-all hover:bg-gray-50 hover:shadow-sm"
               aria-label="Next plan"
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -65,13 +60,13 @@ export function FoodShowcase() {
           </div>
         </motion.div>
 
-        <div className="mt-10 overflow-hidden" ref={emblaRef}>
-          <div className="flex gap-6">
+        <div className="mt-8 overflow-hidden" ref={emblaRef}>
+          <div className="flex gap-5">
             {allPlans.map((plan) => (
               <Link
                 key={plan.slug}
                 href={`/plan/${plan.slug}`}
-                className="group relative min-w-0 flex-[0_0_85%] sm:flex-[0_0_45%] lg:flex-[0_0_32%]"
+                className="group relative min-w-0 flex-[0_0_80%] sm:flex-[0_0_42%] lg:flex-[0_0_30%]"
               >
                 <div className="relative aspect-[16/10] overflow-hidden rounded-2xl">
                   {plan.heroImage && (
@@ -80,7 +75,7 @@ export function FoodShowcase() {
                       alt={plan.name}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      sizes="(max-width: 640px) 85vw, (max-width: 1024px) 45vw, 32vw"
+                      sizes="(max-width: 640px) 80vw, (max-width: 1024px) 42vw, 30vw"
                     />
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
@@ -88,7 +83,7 @@ export function FoodShowcase() {
                     <h3 className="font-[family-name:var(--font-sora)] text-lg font-bold text-white sm:text-xl">
                       {plan.name}
                     </h3>
-                    <p className="mt-1 text-sm text-white/70">
+                    <p className="mt-1 text-sm text-white/60 line-clamp-1">
                       {plan.tagline}
                     </p>
                   </div>

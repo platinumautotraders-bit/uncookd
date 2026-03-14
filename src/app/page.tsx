@@ -4,6 +4,7 @@ import { Hero } from "@/components/home/Hero";
 import { HowItWorksPreview } from "@/components/home/HowItWorksPreview";
 import { FoodShowcase } from "@/components/home/FoodShowcase";
 import { FoodGrid } from "@/components/home/FoodGrid";
+import { ImpactStats } from "@/components/home/ImpactStats";
 import { GlobalFlavour } from "@/components/home/GlobalFlavour";
 import { OurStandards } from "@/components/home/OurStandards";
 import { MembershipTiers } from "@/components/home/MembershipTiers";
@@ -17,6 +18,7 @@ export default function Home() {
       <HowItWorksPreview />
       <FoodShowcase />
       <FoodGrid />
+      <ImpactStats />
       <GlobalFlavour />
       <OurStandards />
       <MembershipTiers />
