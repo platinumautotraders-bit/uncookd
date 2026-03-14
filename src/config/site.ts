@@ -20,6 +20,7 @@ export const siteConfig = {
   },
   nav: [
     { label: "Plans", href: "/plans" },
+    { label: "Meals", href: "/meals" },
     { label: "Build Your Own", href: "/builder" },
     { label: "How It Works", href: "/how-it-works" },
     { label: "About", href: "/about" },
