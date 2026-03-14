@@ -35,14 +35,21 @@ export default function BuilderPage() {
   const isFirstStep = stepIndex === 0;
   const canProceed = isStepValid(currentStep);
 
-  // Show review after final step if valid
   const showReview = isLastStep && canProceed;
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-neutral-50/50">
       {/* Header */}
       <SectionWrapper className="!pb-0">
-        <div className="mb-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8"
+        >
+          <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-brand-red/10 px-4 py-1.5 text-sm font-semibold text-brand-red">
+            <span className="h-1.5 w-1.5 rounded-full bg-brand-red" />
+            Custom Builder
+          </div>
           <h1 className="text-3xl font-bold font-[family-name:var(--font-sora)] sm:text-4xl">
             Build Your Meal
           </h1>
@@ -50,7 +57,7 @@ export default function BuilderPage() {
             Design your perfect meal from scratch. Choose your cooking method,
             protein, carb, veg, and sauce.
           </p>
-        </div>
+        </motion.div>
         <BuilderProgress />
       </SectionWrapper>
 
@@ -74,13 +81,15 @@ export default function BuilderPage() {
         </AnimatePresence>
 
         {/* Navigation buttons */}
-        <div className="mt-10 flex items-center justify-between border-t border-border-light pt-6">
+        <div className="mt-10 flex items-center justify-between border-t border-neutral-200 pt-6">
           <div>
             {!isFirstStep ? (
-              <button
+              <motion.button
                 type="button"
                 onClick={prevStep}
-                className="flex items-center gap-2 rounded-lg border border-border-light bg-white px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-gray-50"
+                whileHover={{ x: -2 }}
+                whileTap={{ scale: 0.98 }}
+                className="flex items-center gap-2 rounded-xl border border-neutral-200 bg-white px-5 py-2.5 text-sm font-semibold text-foreground transition-all hover:shadow-sm"
               >
                 <svg
                   className="h-4 w-4"
@@ -92,7 +101,7 @@ export default function BuilderPage() {
                   <path d="M19 12H5M12 19l-7-7 7-7" />
                 </svg>
                 Back
-              </button>
+              </motion.button>
             ) : (
               <button
                 type="button"
@@ -105,15 +114,17 @@ export default function BuilderPage() {
           </div>
           <div className="flex items-center gap-3">
             {!isLastStep ? (
-              <button
+              <motion.button
                 type="button"
                 onClick={nextStep}
                 disabled={!canProceed}
+                whileHover={canProceed ? { x: 2 } : {}}
+                whileTap={canProceed ? { scale: 0.98 } : {}}
                 className={cn(
-                  "flex items-center gap-2 rounded-lg px-6 py-2.5 text-sm font-bold transition-all",
+                  "flex items-center gap-2 rounded-xl px-6 py-2.5 text-sm font-bold transition-all",
                   canProceed
-                    ? "bg-brand-red text-white hover:bg-brand-red-hover active:scale-[0.98]"
-                    : "cursor-not-allowed bg-gray-200 text-gray-400"
+                    ? "bg-brand-red text-white shadow-md shadow-brand-red/25 hover:bg-brand-red-hover"
+                    : "cursor-not-allowed bg-neutral-100 text-neutral-400"
                 )}
               >
                 Next
@@ -126,7 +137,7 @@ export default function BuilderPage() {
                 >
                   <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
-              </button>
+              </motion.button>
             ) : (
               !showReview && (
                 <span className="text-sm text-text-secondary">
@@ -138,7 +149,7 @@ export default function BuilderPage() {
         </div>
       </SectionWrapper>
 
-      {/* Review section - shown when on sauce step and all is valid */}
+      {/* Review section */}
       {showReview && (
         <SectionWrapper dark>
           <BuilderReview />

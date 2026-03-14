@@ -36,42 +36,42 @@ export function MealCard({ meal }: MealCardProps) {
     .map(([flag]) => flag);
 
   return (
-    <div
+    <motion.div
+      layout
       className={cn(
-        "rounded-xl border border-border-light bg-bg-card p-4 transition-shadow hover:shadow-md"
+        "rounded-2xl bg-white shadow-sm ring-1 ring-black/5 transition-all duration-300",
+        expanded && "shadow-md ring-black/10"
       )}
     >
       <button
         type="button"
         onClick={() => setExpanded(!expanded)}
-        className="flex w-full items-start justify-between gap-3 text-left"
+        className="flex w-full items-start justify-between gap-3 p-5 text-left"
       >
         <div className="min-w-0 flex-1">
-          <div className="mb-1 flex items-center gap-2">
-            <span className="text-xs font-semibold uppercase tracking-wider text-brand-red">
+          <div className="mb-1.5 flex items-center gap-2">
+            <span className="rounded-full bg-brand-red/10 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-wider text-brand-red">
               {slotLabels[meal.slot]}
             </span>
             {activeDietary.map((flag) => (
               <span
                 key={flag}
-                className="text-[10px] font-bold uppercase text-brand-green"
+                className="rounded-full bg-brand-green/10 px-2 py-0.5 text-[10px] font-bold uppercase text-brand-green"
               >
                 {dietaryLabels[flag] ?? flag}
               </span>
             ))}
           </div>
-          <h4 className="font-[family-name:var(--font-sora)] text-sm font-semibold leading-snug">
+          <h4 className="font-[family-name:var(--font-sora)] text-base font-semibold leading-snug">
             {meal.name}
           </h4>
           {sauce && (
-            <p className="mt-0.5 text-xs text-text-secondary">
-              {sauce.name}
-            </p>
+            <p className="mt-1 text-xs text-text-secondary">{sauce.name}</p>
           )}
         </div>
 
-        <div className="flex shrink-0 flex-col items-end gap-1.5">
-          <span className="font-[family-name:var(--font-jetbrains-mono)] text-sm font-bold">
+        <div className="flex shrink-0 flex-col items-end gap-2">
+          <span className="font-[family-name:var(--font-jetbrains-mono)] text-sm font-bold text-brand-red">
             {meal.nutrition.calories} cal
           </span>
           <div className="flex items-center gap-2">
@@ -87,22 +87,25 @@ export function MealCard({ meal }: MealCardProps) {
               {formatCookTime(meal.cookTime)}
             </span>
           </div>
-          <svg
-            className={cn(
-              "h-4 w-4 text-text-secondary transition-transform",
-              expanded && "rotate-180"
-            )}
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2}
+          <motion.div
+            animate={{ rotate: expanded ? 180 : 0 }}
+            transition={{ duration: 0.3 }}
+            className="flex h-6 w-6 items-center justify-center rounded-full bg-neutral-100"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M19 9l-7 7-7-7"
-            />
-          </svg>
+            <svg
+              className="h-3.5 w-3.5 text-neutral-500"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2.5}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </motion.div>
         </div>
       </button>
 
@@ -112,24 +115,27 @@ export function MealCard({ meal }: MealCardProps) {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
+            transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
             className="overflow-hidden"
           >
-            <div className="mt-4 space-y-4 border-t border-border-light pt-4">
-              <p className="text-sm text-text-secondary">{meal.description}</p>
+            <div className="space-y-5 border-t border-neutral-100 px-5 pb-5 pt-5">
+              <p className="text-sm text-text-secondary leading-relaxed">
+                {meal.description}
+              </p>
 
               <div>
-                <h5 className="mb-2 text-xs font-semibold uppercase tracking-wider text-text-secondary">
+                <h5 className="mb-2.5 text-xs font-semibold uppercase tracking-wider text-text-secondary">
                   Ingredients
                 </h5>
-                <ul className="grid grid-cols-1 gap-1 text-sm sm:grid-cols-2">
+                <ul className="grid grid-cols-1 gap-1.5 text-sm sm:grid-cols-2">
                   {meal.ingredients.map((ing) => (
                     <li
                       key={ing.ingredientId}
                       className="flex items-center gap-2 text-text-secondary"
                     >
-                      <span className="h-1 w-1 shrink-0 rounded-full bg-brand-red" />
-                      {ing.name} ({ing.quantity}{ing.unit})
+                      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-brand-red/50" />
+                      {ing.name} ({ing.quantity}
+                      {ing.unit})
                     </li>
                   ))}
                 </ul>
@@ -137,7 +143,7 @@ export function MealCard({ meal }: MealCardProps) {
 
               {meal.cookingMethods.length > 0 && (
                 <div>
-                  <h5 className="mb-2 text-xs font-semibold uppercase tracking-wider text-text-secondary">
+                  <h5 className="mb-2.5 text-xs font-semibold uppercase tracking-wider text-text-secondary">
                     Cooking Methods
                   </h5>
                   <div className="flex flex-wrap gap-2">
@@ -152,19 +158,19 @@ export function MealCard({ meal }: MealCardProps) {
 
               {meal.cookingSteps.length > 0 && (
                 <div>
-                  <h5 className="mb-2 text-xs font-semibold uppercase tracking-wider text-text-secondary">
+                  <h5 className="mb-2.5 text-xs font-semibold uppercase tracking-wider text-text-secondary">
                     Cooking Steps
                   </h5>
-                  <ol className="space-y-1.5">
+                  <ol className="space-y-2">
                     {meal.cookingSteps.map((step, i) => (
                       <li
                         key={i}
-                        className="flex gap-2 text-sm text-text-secondary"
+                        className="flex gap-3 text-sm text-text-secondary"
                       >
-                        <span className="font-[family-name:var(--font-jetbrains-mono)] text-xs font-bold text-brand-red">
-                          {String(i + 1).padStart(2, "0")}
+                        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-red/10 font-[family-name:var(--font-jetbrains-mono)] text-xs font-bold text-brand-red">
+                          {i + 1}
                         </span>
-                        {step}
+                        <span className="pt-0.5">{step}</span>
                       </li>
                     ))}
                   </ol>
@@ -175,7 +181,7 @@ export function MealCard({ meal }: MealCardProps) {
 
               {meal.allergens.length > 0 && (
                 <div>
-                  <h5 className="mb-2 text-xs font-semibold uppercase tracking-wider text-text-secondary">
+                  <h5 className="mb-2.5 text-xs font-semibold uppercase tracking-wider text-text-secondary">
                     Allergens
                   </h5>
                   <AllergenTags allergens={meal.allergens} />
@@ -185,6 +191,6 @@ export function MealCard({ meal }: MealCardProps) {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 }

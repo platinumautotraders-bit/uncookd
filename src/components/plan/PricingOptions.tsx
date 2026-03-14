@@ -4,7 +4,6 @@ import { useState } from "react";
 import type { Plan, PlanDuration, ServingSize } from "@/types";
 import { SectionWrapper } from "@/components/shared/SectionWrapper";
 import { PriceDisplay } from "@/components/shared/PriceDisplay";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useCartStore } from "@/stores/cartStore";
 import { generateId } from "@/lib/utils";
 import { formatDuration, formatServingSize } from "@/lib/formatters";
@@ -68,80 +67,94 @@ export function PricingOptions({ plan }: PricingOptionsProps) {
           Select duration and serving size. Price updates live.
         </p>
 
-        <div className="rounded-2xl border border-border-light bg-bg-card p-6 sm:p-8">
+        <div className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm sm:p-8">
+          {/* Duration — pill tabs */}
           <div className="mb-8">
             <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-secondary">
               Duration
             </h3>
-            <Tabs
-              defaultValue={String(duration)}
-              onValueChange={(val) => setDuration(Number(val) as PlanDuration)}
-            >
-              <TabsList className="w-full">
-                {plan.durationOptions.map((d) => (
-                  <TabsTrigger
-                    key={d}
-                    value={String(d)}
-                    className="flex-1"
-                  >
-                    {formatDuration(d)}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </Tabs>
+            <div className="inline-flex rounded-full bg-neutral-100 p-1">
+              {plan.durationOptions.map((d) => (
+                <button
+                  key={d}
+                  type="button"
+                  onClick={() => setDuration(d)}
+                  className={cn(
+                    "relative rounded-full px-6 py-2.5 text-sm font-semibold transition-all duration-200",
+                    duration === d
+                      ? "text-white"
+                      : "text-neutral-600 hover:text-neutral-900"
+                  )}
+                >
+                  {duration === d && (
+                    <motion.span
+                      layoutId="durationPill"
+                      className="absolute inset-0 rounded-full bg-brand-red shadow-md shadow-brand-red/25"
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  )}
+                  <span className="relative z-10">{formatDuration(d)}</span>
+                </button>
+              ))}
+            </div>
           </div>
 
+          {/* Serving size — elegant buttons */}
           <div className="mb-8">
             <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-secondary">
               Serving Size
             </h3>
             <div className="grid grid-cols-3 gap-3">
               {plan.servingOptions.map((s) => (
-                <button
+                <motion.button
                   key={s}
                   type="button"
                   onClick={() => setServingSize(s)}
+                  whileHover={{ y: -1 }}
+                  whileTap={{ scale: 0.98 }}
                   className={cn(
-                    "rounded-lg border-2 px-4 py-3 text-center text-sm font-semibold transition-all",
+                    "rounded-xl border-2 px-4 py-3.5 text-center text-sm font-semibold transition-all duration-200",
                     servingSize === s
-                      ? "border-brand-red bg-brand-red/5 text-brand-red"
-                      : "border-border-light text-text-secondary hover:border-gray-300"
+                      ? "border-brand-red bg-brand-red/5 text-brand-red shadow-sm"
+                      : "border-neutral-200 text-neutral-600 hover:border-neutral-300 hover:shadow-sm"
                   )}
                 >
                   {formatServingSize(s)}
-                </button>
+                </motion.button>
               ))}
             </div>
           </div>
 
+          {/* Quantity */}
           <div className="mb-8">
             <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-secondary">
               Quantity
             </h3>
-            <div className="inline-flex items-center rounded-lg border border-border-light">
+            <div className="inline-flex items-center overflow-hidden rounded-xl border border-neutral-200 bg-white">
               <button
                 type="button"
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
                 disabled={quantity <= 1}
-                className="flex h-10 w-10 items-center justify-center text-lg font-medium transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-30"
+                className="flex h-11 w-11 items-center justify-center text-lg font-medium text-neutral-600 transition-all hover:bg-neutral-50 active:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-30"
               >
                 -
               </button>
-              <span className="flex h-10 w-12 items-center justify-center border-x border-border-light font-[family-name:var(--font-jetbrains-mono)] text-sm font-semibold">
+              <span className="flex h-11 w-14 items-center justify-center border-x border-neutral-200 font-[family-name:var(--font-jetbrains-mono)] text-sm font-bold">
                 {quantity}
               </span>
               <button
                 type="button"
                 onClick={() => setQuantity(Math.min(10, quantity + 1))}
                 disabled={quantity >= 10}
-                className="flex h-10 w-10 items-center justify-center text-lg font-medium transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-30"
+                className="flex h-11 w-11 items-center justify-center text-lg font-medium text-neutral-600 transition-all hover:bg-neutral-50 active:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-30"
               >
                 +
               </button>
             </div>
           </div>
 
-          <div className="mb-6 flex items-center justify-between border-t border-border-light pt-6">
+          {/* Price summary */}
+          <div className="mb-6 flex items-center justify-between border-t border-neutral-100 pt-6">
             <div>
               <p className="text-sm text-text-secondary">
                 {formatDuration(duration)} / {formatServingSize(servingSize)}
@@ -153,25 +166,29 @@ export function PricingOptions({ plan }: PricingOptionsProps) {
                 suffix="/week"
               />
             </div>
-            <div className="text-right text-xs text-text-secondary">
-              <p className="font-[family-name:var(--font-jetbrains-mono)]">
-                ~{formatServingSize(1)} = {(price / duration / servingSize).toFixed(2)}/meal
+            <div className="rounded-xl bg-neutral-50 px-4 py-2 text-right">
+              <p className="text-[10px] uppercase tracking-wider text-text-secondary">
+                Per meal
+              </p>
+              <p className="font-[family-name:var(--font-jetbrains-mono)] text-sm font-bold">
+                ${(price / duration / servingSize).toFixed(2)}
               </p>
             </div>
           </div>
 
-          <button
+          <motion.button
             type="button"
             onClick={handleAddToCart}
+            whileTap={{ scale: 0.98 }}
             className={cn(
-              "w-full rounded-lg px-8 py-4 text-base font-semibold transition-all",
+              "w-full rounded-xl px-8 py-4 text-base font-semibold transition-all duration-300",
               added
-                ? "bg-brand-green text-white"
-                : "bg-brand-red text-white hover:bg-brand-red-hover active:scale-[0.98]"
+                ? "bg-brand-green text-white shadow-lg shadow-brand-green/25"
+                : "bg-brand-red text-white hover:bg-brand-red-hover hover:shadow-lg hover:shadow-brand-red/25"
             )}
           >
             {added ? "Added to Cart" : "Add to Cart"}
-          </button>
+          </motion.button>
         </div>
       </motion.div>
     </SectionWrapper>
