@@ -141,19 +141,21 @@ export function MealTypeSelector() {
               type="button"
               variants={itemVariants}
               onClick={() => setMealType(type.value)}
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.98 }}
               className={cn(
-                "group relative flex items-start gap-4 rounded-xl border-2 p-5 text-left transition-all",
+                "group relative flex items-start gap-4 rounded-2xl border-2 p-5 text-left transition-all duration-200",
                 selected
-                  ? "border-brand-red bg-brand-red/5 shadow-md"
-                  : "border-border-light bg-white hover:border-gray-300 hover:shadow-sm"
+                  ? "border-brand-red bg-gradient-to-br from-brand-red/8 to-brand-red/3 shadow-lg shadow-brand-red/10"
+                  : "border-neutral-200 bg-white hover:border-neutral-300 hover:bg-gradient-to-br hover:from-neutral-50 hover:to-white hover:shadow-md"
               )}
             >
               <div
                 className={cn(
-                  "shrink-0 transition-colors",
+                  "flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-all duration-200",
                   selected
-                    ? "text-brand-red"
-                    : "text-text-secondary group-hover:text-foreground"
+                    ? "bg-brand-red/10 text-brand-red"
+                    : "bg-neutral-100 text-neutral-500 group-hover:bg-neutral-200 group-hover:text-neutral-700"
                 )}
               >
                 {type.icon}
@@ -161,7 +163,7 @@ export function MealTypeSelector() {
               <div>
                 <div
                   className={cn(
-                    "text-sm font-semibold",
+                    "text-sm font-semibold transition-colors",
                     selected ? "text-brand-red" : "text-foreground"
                   )}
                 >
@@ -173,9 +175,9 @@ export function MealTypeSelector() {
               </div>
               {selected && (
                 <motion.div
-                  className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-brand-red text-white"
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
+                  className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-brand-red text-white shadow-md"
+                  initial={{ scale: 0, rotate: -180 }}
+                  animate={{ scale: 1, rotate: 0 }}
                   transition={{ type: "spring", stiffness: 500, damping: 25 }}
                 >
                   <svg

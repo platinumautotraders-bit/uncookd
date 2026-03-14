@@ -8,10 +8,10 @@ import type { ProteinType, ProteinCut } from "@/types";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
-const PROTEIN_TYPES: { value: ProteinType; label: string; color: string }[] = [
-  { value: "chicken", label: "Chicken", color: "bg-amber-100 text-amber-800 border-amber-300" },
-  { value: "beef", label: "Beef", color: "bg-red-100 text-red-800 border-red-300" },
-  { value: "lamb", label: "Lamb", color: "bg-rose-100 text-rose-800 border-rose-300" },
+const PROTEIN_TYPES: { value: ProteinType; label: string }[] = [
+  { value: "chicken", label: "Chicken" },
+  { value: "beef", label: "Beef" },
+  { value: "lamb", label: "Lamb" },
 ];
 
 function getCutLabel(cut: string): string {
@@ -89,26 +89,28 @@ export function ProteinSelector() {
         Select a protein type, then pick the specific cut.
       </p>
 
-      {/* Protein type selection */}
+      {/* Protein type pills */}
       <div className="mb-8 flex flex-wrap gap-3">
         {PROTEIN_TYPES.filter((pt) => availableTypes.includes(pt.value)).map(
           (pt) => {
             const isActive = selectedType === pt.value;
 
             return (
-              <button
+              <motion.button
                 key={pt.value}
                 type="button"
                 onClick={() => handleTypeSelect(pt.value)}
+                whileHover={{ y: -1 }}
+                whileTap={{ scale: 0.97 }}
                 className={cn(
-                  "rounded-xl border-2 px-6 py-3 text-sm font-semibold transition-all",
+                  "rounded-full px-7 py-3 text-sm font-semibold transition-all duration-200",
                   isActive
-                    ? "border-brand-red bg-brand-red text-white shadow-md"
-                    : "border-border-light bg-white text-foreground hover:border-gray-300"
+                    ? "bg-brand-red text-white shadow-lg shadow-brand-red/25"
+                    : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200 hover:text-neutral-900"
                 )}
               >
                 {pt.label}
-              </button>
+              </motion.button>
             );
           }
         )}
@@ -150,16 +152,18 @@ export function ProteinSelector() {
                     onClick={() =>
                       handleCutSelect(entry.proteinType, entry.cut)
                     }
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.98 }}
                     className={cn(
-                      "group relative flex flex-col items-center gap-2 rounded-xl border-2 p-4 text-center transition-all",
+                      "group relative flex flex-col items-center gap-2 rounded-2xl border-2 p-5 text-center transition-all duration-200",
                       isSelected
-                        ? "border-brand-red bg-brand-red/5 shadow-md"
-                        : "border-border-light bg-white hover:border-gray-300 hover:shadow-sm"
+                        ? "border-brand-red bg-gradient-to-b from-brand-red/8 to-brand-red/3 shadow-lg shadow-brand-red/10"
+                        : "border-neutral-200 bg-white hover:border-neutral-300 hover:bg-gradient-to-b hover:from-neutral-50 hover:to-white hover:shadow-md"
                     )}
                   >
                     <div
                       className={cn(
-                        "text-sm font-semibold",
+                        "text-sm font-semibold transition-colors",
                         isSelected ? "text-brand-red" : "text-foreground"
                       )}
                     >
@@ -170,9 +174,9 @@ export function ProteinSelector() {
                     </div>
                     {isSelected && (
                       <motion.div
-                        className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-brand-red text-white"
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
+                        className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-brand-red text-white shadow-md"
+                        initial={{ scale: 0, rotate: -180 }}
+                        animate={{ scale: 1, rotate: 0 }}
                         transition={{
                           type: "spring",
                           stiffness: 500,

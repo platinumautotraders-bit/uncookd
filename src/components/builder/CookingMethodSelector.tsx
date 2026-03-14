@@ -136,19 +136,21 @@ export function CookingMethodSelector() {
               type="button"
               variants={itemVariants}
               onClick={() => setCookingMethod(method.value)}
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.98 }}
               className={cn(
-                "group relative flex flex-col items-center gap-3 rounded-xl border-2 p-6 text-center transition-all",
+                "group relative flex flex-col items-center gap-3 rounded-2xl border-2 p-6 text-center transition-all duration-200",
                 selected
-                  ? "border-brand-red bg-brand-red/5 shadow-md"
-                  : "border-border-light bg-white hover:border-gray-300 hover:shadow-sm"
+                  ? "border-brand-red bg-gradient-to-b from-brand-red/8 to-brand-red/3 shadow-lg shadow-brand-red/10"
+                  : "border-neutral-200 bg-white hover:border-neutral-300 hover:bg-gradient-to-b hover:from-neutral-50 hover:to-white hover:shadow-md"
               )}
             >
               <div
                 className={cn(
-                  "transition-colors",
+                  "flex h-14 w-14 items-center justify-center rounded-xl transition-all duration-200",
                   selected
-                    ? "text-brand-red"
-                    : "text-text-secondary group-hover:text-foreground"
+                    ? "bg-brand-red/10 text-brand-red"
+                    : "bg-neutral-100 text-neutral-500 group-hover:bg-neutral-200 group-hover:text-neutral-700"
                 )}
               >
                 {method.icon}
@@ -156,7 +158,7 @@ export function CookingMethodSelector() {
               <div>
                 <div
                   className={cn(
-                    "text-sm font-semibold",
+                    "text-sm font-semibold transition-colors",
                     selected ? "text-brand-red" : "text-foreground"
                   )}
                 >
@@ -168,9 +170,9 @@ export function CookingMethodSelector() {
               </div>
               {selected && (
                 <motion.div
-                  className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-brand-red text-white"
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
+                  className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-brand-red text-white shadow-md"
+                  initial={{ scale: 0, rotate: -180 }}
+                  animate={{ scale: 1, rotate: 0 }}
                   transition={{ type: "spring", stiffness: 500, damping: 25 }}
                 >
                   <svg

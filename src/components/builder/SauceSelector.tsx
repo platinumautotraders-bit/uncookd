@@ -63,11 +63,13 @@ export function SauceSelector() {
           type="button"
           variants={itemVariants}
           onClick={() => setSauceCode(null)}
+          whileHover={{ y: -2 }}
+          whileTap={{ scale: 0.98 }}
           className={cn(
-            "group relative flex items-start gap-4 rounded-xl border-2 border-dashed p-4 text-left transition-all",
+            "group relative flex items-start gap-4 rounded-2xl border-2 border-dashed p-5 text-left transition-all duration-200",
             sauceCode === null
-              ? "border-brand-red bg-brand-red/5 shadow-md"
-              : "border-border-light bg-white hover:border-gray-300"
+              ? "border-brand-red bg-gradient-to-br from-brand-red/8 to-brand-red/3 shadow-lg shadow-brand-red/10"
+              : "border-neutral-200 bg-white hover:border-neutral-300 hover:shadow-md"
           )}
         >
           <div className="flex-1">
@@ -83,9 +85,7 @@ export function SauceSelector() {
               Just protein, veg, and carb
             </div>
           </div>
-          {sauceCode === null && (
-            <CheckBadge />
-          )}
+          {sauceCode === null && <CheckBadge />}
         </motion.button>
 
         {availableSauces.map((sauce) => {
@@ -97,17 +97,19 @@ export function SauceSelector() {
               type="button"
               variants={itemVariants}
               onClick={() => setSauceCode(sauce.code)}
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.98 }}
               className={cn(
-                "group relative flex items-start gap-4 rounded-xl border-2 p-4 text-left transition-all",
+                "group relative flex items-start gap-4 rounded-2xl border-2 p-5 text-left transition-all duration-200",
                 isSelected
-                  ? "border-brand-red bg-brand-red/5 shadow-md"
-                  : "border-border-light bg-white hover:border-gray-300 hover:shadow-sm"
+                  ? "border-brand-red bg-gradient-to-br from-brand-red/8 to-brand-red/3 shadow-lg shadow-brand-red/10"
+                  : "border-neutral-200 bg-white hover:border-neutral-300 hover:bg-gradient-to-br hover:from-neutral-50 hover:to-white hover:shadow-md"
               )}
             >
               <div className="flex-1">
                 <div
                   className={cn(
-                    "text-sm font-semibold",
+                    "text-sm font-semibold transition-colors",
                     isSelected ? "text-brand-red" : "text-foreground"
                   )}
                 >
@@ -153,35 +155,39 @@ export function SauceSelector() {
           Optional extra sauce on the side. Great with steaks and roasts.
         </p>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <button
+          <motion.button
             type="button"
             onClick={() => setSideSauceCode(null)}
+            whileHover={{ y: -1 }}
+            whileTap={{ scale: 0.98 }}
             className={cn(
-              "rounded-xl border-2 border-dashed p-3 text-center text-sm font-medium transition-all",
+              "rounded-2xl border-2 border-dashed p-4 text-center text-sm font-medium transition-all duration-200",
               sideSauceCode === null
-                ? "border-brand-red bg-brand-red/5 text-brand-red"
-                : "border-border-light bg-white text-text-secondary hover:border-gray-300"
+                ? "border-brand-red bg-brand-red/5 text-brand-red shadow-sm"
+                : "border-neutral-200 bg-white text-text-secondary hover:border-neutral-300 hover:shadow-sm"
             )}
           >
             No Side Sauce
-          </button>
+          </motion.button>
           {sideSauces.map((ss) => {
             const isSelected = sideSauceCode === ss.code;
             return (
-              <button
+              <motion.button
                 key={ss.code}
                 type="button"
                 onClick={() => setSideSauceCode(ss.code)}
+                whileHover={{ y: -1 }}
+                whileTap={{ scale: 0.98 }}
                 className={cn(
-                  "rounded-xl border-2 p-3 text-left transition-all",
+                  "rounded-2xl border-2 p-4 text-left transition-all duration-200",
                   isSelected
-                    ? "border-brand-red bg-brand-red/5 shadow-sm"
-                    : "border-border-light bg-white hover:border-gray-300"
+                    ? "border-brand-red bg-gradient-to-br from-brand-red/8 to-brand-red/3 shadow-md"
+                    : "border-neutral-200 bg-white hover:border-neutral-300 hover:shadow-sm"
                 )}
               >
                 <div
                   className={cn(
-                    "text-sm font-semibold",
+                    "text-sm font-semibold transition-colors",
                     isSelected ? "text-brand-red" : "text-foreground"
                   )}
                 >
@@ -190,7 +196,7 @@ export function SauceSelector() {
                 <div className="mt-1 text-xs text-text-secondary">
                   {ss.style}
                 </div>
-              </button>
+              </motion.button>
             );
           })}
         </div>
@@ -205,35 +211,39 @@ export function SauceSelector() {
           Fresh side salad with dressing included.
         </p>
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-          <button
+          <motion.button
             type="button"
             onClick={() => setSaladCode(null)}
+            whileHover={{ y: -1 }}
+            whileTap={{ scale: 0.98 }}
             className={cn(
-              "rounded-xl border-2 border-dashed p-3 text-center text-sm font-medium transition-all",
+              "rounded-2xl border-2 border-dashed p-4 text-center text-sm font-medium transition-all duration-200",
               saladCode === null
-                ? "border-brand-red bg-brand-red/5 text-brand-red"
-                : "border-border-light bg-white text-text-secondary hover:border-gray-300"
+                ? "border-brand-red bg-brand-red/5 text-brand-red shadow-sm"
+                : "border-neutral-200 bg-white text-text-secondary hover:border-neutral-300 hover:shadow-sm"
             )}
           >
             No Salad
-          </button>
+          </motion.button>
           {saladAddOns.map((salad) => {
             const isSelected = saladCode === salad.code;
             return (
-              <button
+              <motion.button
                 key={salad.code}
                 type="button"
                 onClick={() => setSaladCode(salad.code)}
+                whileHover={{ y: -1 }}
+                whileTap={{ scale: 0.98 }}
                 className={cn(
-                  "rounded-xl border-2 p-3 text-left transition-all",
+                  "rounded-2xl border-2 p-4 text-left transition-all duration-200",
                   isSelected
-                    ? "border-brand-red bg-brand-red/5 shadow-sm"
-                    : "border-border-light bg-white hover:border-gray-300"
+                    ? "border-brand-red bg-gradient-to-br from-brand-red/8 to-brand-red/3 shadow-md"
+                    : "border-neutral-200 bg-white hover:border-neutral-300 hover:shadow-sm"
                 )}
               >
                 <div
                   className={cn(
-                    "text-sm font-semibold",
+                    "text-sm font-semibold transition-colors",
                     isSelected ? "text-brand-red" : "text-foreground"
                   )}
                 >
@@ -242,7 +252,7 @@ export function SauceSelector() {
                 <div className="mt-1 text-xs text-text-secondary line-clamp-2">
                   {salad.description}
                 </div>
-              </button>
+              </motion.button>
             );
           })}
         </div>
@@ -254,9 +264,9 @@ export function SauceSelector() {
 function CheckBadge() {
   return (
     <motion.div
-      className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-brand-red text-white"
-      initial={{ scale: 0 }}
-      animate={{ scale: 1 }}
+      className="absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full bg-brand-red text-white shadow-md"
+      initial={{ scale: 0, rotate: -180 }}
+      animate={{ scale: 1, rotate: 0 }}
       transition={{ type: "spring", stiffness: 500, damping: 25 }}
     >
       <svg

@@ -54,17 +54,19 @@ export function CarbSelector() {
               onClick={() =>
                 setCarb(isNone ? null : entry.carb)
               }
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.98 }}
               className={cn(
-                "group relative flex flex-col items-center gap-2 rounded-xl border-2 p-5 text-center transition-all",
+                "group relative flex flex-col items-center gap-2 rounded-2xl border-2 p-5 text-center transition-all duration-200",
                 isSelected || (isNone && carb === null)
-                  ? "border-brand-red bg-brand-red/5 shadow-md"
-                  : "border-border-light bg-white hover:border-gray-300 hover:shadow-sm",
-                isNone && "border-dashed"
+                  ? "border-brand-red bg-gradient-to-b from-brand-red/8 to-brand-red/3 shadow-lg shadow-brand-red/10"
+                  : "border-neutral-200 bg-white hover:border-neutral-300 hover:bg-gradient-to-b hover:from-neutral-50 hover:to-white hover:shadow-md",
+                isNone && !(carb === null) && "border-dashed"
               )}
             >
               <div
                 className={cn(
-                  "text-sm font-semibold",
+                  "text-sm font-semibold transition-colors",
                   isSelected || (isNone && carb === null)
                     ? "text-brand-red"
                     : "text-foreground"
@@ -79,9 +81,9 @@ export function CarbSelector() {
               )}
               {(isSelected || (isNone && carb === null)) && (
                 <motion.div
-                  className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-brand-red text-white"
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
+                  className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-brand-red text-white shadow-md"
+                  initial={{ scale: 0, rotate: -180 }}
+                  animate={{ scale: 1, rotate: 0 }}
                   transition={{
                     type: "spring",
                     stiffness: 500,
